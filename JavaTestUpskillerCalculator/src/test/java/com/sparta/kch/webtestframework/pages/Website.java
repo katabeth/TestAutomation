@@ -7,9 +7,11 @@ public class Website {
 
     private WebDriver driver;
     private HomePage homePage;
+    private InventoryPage inventoryPage;
     public Website(WebDriver driver) {
         this.driver = driver;
         homePage = new HomePage(driver);
+        inventoryPage = new InventoryPage(driver);
     }
 
     public HomePage getHomePage() {
@@ -18,8 +20,8 @@ public class Website {
     public String getCurrentUrl() {
         return driver.getCurrentUrl();
     }
-    public String getPageTitle() {
-        return driver.getTitle();
+    public InventoryPage getInventoryPage() {
+        return inventoryPage;
     }
 
 }

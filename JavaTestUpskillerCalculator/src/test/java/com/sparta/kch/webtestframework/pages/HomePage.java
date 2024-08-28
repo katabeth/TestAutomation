@@ -5,14 +5,15 @@ import org.openqa.selenium.WebDriver;
 
 public class HomePage {
 
-    private WebDriver driver;
-    private By userNameField = new By.ById("user-name");
-    private By passwordField = new By.ById("password");
-    private By loginButton = new By.ById("login-button");
-    private By errorField = new By.ById("error-message-container");
+    private final WebDriver driver;
+    private final By userNameField = new By.ById("user-name");
+    private final By passwordField = new By.ById("password");
+    private final By loginButton = new By.ById("login-button");
+    private final By errorField = new By.ByClassName("error-message-container");
     public HomePage(WebDriver driver) {
         this.driver = driver;
     }
+
     public void enterUserName(String userName) {
         driver.findElement(this.userNameField).sendKeys(userName);
     }
@@ -23,9 +24,9 @@ public class HomePage {
         driver.findElement(this.loginButton).click();
     }
     public void login(String userName, String password) {
-        driver.findElement(this.userNameField).sendKeys(userName);
-        driver.findElement(this.passwordField).sendKeys(password);
-        driver.findElement(this.loginButton).click();
+        enterUserName(userName);
+        enterPassword(password);
+        clickLogin();
     }
 
     public String getErrorMessage() {

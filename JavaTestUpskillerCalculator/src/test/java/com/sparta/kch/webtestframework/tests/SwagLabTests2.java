@@ -42,20 +42,35 @@ public class SwagLabTests2 extends TestSetup{
         website.getHomePage().login("standard_user", "password");
         MatcherAssert.assertThat(website.getHomePage().getErrorMessage() , Matchers.containsString("Epic sadface: Username and password do not match any user in this service"));
     }
-//    @Test
-//    @DisplayName("Given I am logged in, when I view inventory page, I should see the correct number of products")
-//    public void checkNumberOfProducts() {
-//        webDriver.get(BASE_URL);
-//        WebElement usernameField = webDriver.findElement(By.id("user-name"));
-//        WebElement passwordField = webDriver.findElement(By.id("password"));
-//        WebElement loginButton = webDriver.findElement(By.id("login-button"));
-//        usernameField.sendKeys("standard_user");
-//        passwordField.sendKeys("secret_sauce");
-//        loginButton.click();
-//        List<WebElement> items = webDriver.findElements(By.className("inventory_item"));
-//        Assertions.assertEquals(6, items.size());
-//    }
-//
+    @Test
+    @DisplayName("Given I am logged in, when I view inventory page, I should see the correct number of products")
+    public void checkNumberOfProducts() {
+        website = getWebsite(BASE_URL);
+        website.getHomePage().login("standard_user", "secret_sauce");
+
+        Assertions.assertEquals(6, website.getInventoryPage().getInventoryItems().size());
+    }
+
+    @Test
+    @DisplayName("Adding an item to cart increases cart by 1")
+    public void checkCart() {
+        website = getWebsite(BASE_URL);
+        website.getHomePage().login("standard_user", "secret_sauce");
+        int before = website.getInventoryPage().getShoppingCartBadge();
+        website.getInventoryPage().addSauceLabsBackpackToCart();
+        int after = website.getInventoryPage().getShoppingCartBadge();
+        Assertions.assertEquals(1, after - before);
+    }
+    @Test
+    @DisplayName("Adding a specific item to cart increases cart by 1")
+    public void checkCart2() {
+        website = getWebsite(BASE_URL);
+        website.getHomePage().login("standard_user", "secret_sauce");
+        int before = website.getInventoryPage().getShoppingCartBadge();
+        website.getInventoryPage().addItemToCart(2);
+        int after = website.getInventoryPage().getShoppingCartBadge();
+        Assertions.assertEquals(1, after - before);
+    }
 //    @Test
 //    @DisplayName("Print items from inventory into a file")
 //    public void checkInventoryPage() throws IOException {
@@ -166,23 +181,5 @@ public class SwagLabTests2 extends TestSetup{
 //        webDriver.findElement(By.linkText("Logout")).click();
 //        Assertions.assertEquals("https://www.saucedemo.com/", webDriver.getCurrentUrl());
 //    }
-//    @Test
-//    @DisplayName("Adding an item to cart increases cart by 1")
-//    public void checkCart() {
-//        webDriver.get(BASE_URL);
-//        WebElement usernameField = webDriver.findElement(By.id("user-name"));
-//        WebElement passwordField = webDriver.findElement(By.id("password"));
-//        WebElement loginButton = webDriver.findElement(By.id("login-button"));
-//        usernameField.sendKeys("standard_user");
-//        passwordField.sendKeys("secret_sauce");
-//        loginButton.click();
-//        int before = 0;
-//        try {
-//            before = Integer.parseInt(webDriver.findElement(By.className("shopping_cart_badge")).getText());
-//        } catch (Exception ignored) {
-//        }
-//        webDriver.findElement(By.id("add-to-cart-sauce-labs-backpack")).click();
-//        int after = Integer.parseInt(webDriver.findElement(By.className("shopping_cart_badge")).getText());
-//        Assertions.assertEquals(1, after - before);
-//    }
+//
 }
