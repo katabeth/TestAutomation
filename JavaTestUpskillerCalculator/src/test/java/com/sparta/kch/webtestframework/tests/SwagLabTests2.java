@@ -1,4 +1,4 @@
-package com.sparta.kch.selenium;
+package com.sparta.kch.webtestframework.tests;
 
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -7,7 +7,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.*;
+import org.openqa.selenium.firefox.FirefoxOptions;
+import org.openqa.selenium.firefox.GeckoDriverService;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.Wait;
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Set;
 
 
-public class SwagLabTests {
+public class SwagLabTests2 {
     private static final String DRIVER_LOCATION = "src/test/resources/geckodriver.exe";
     private static final String BASE_URL = "https://www.saucedemo.com/";
     private static GeckoDriverService service;

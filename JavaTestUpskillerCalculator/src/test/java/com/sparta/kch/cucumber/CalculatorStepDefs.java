@@ -1,5 +1,6 @@
-package com.sparta.kch;
+package com.sparta.kch.cucumber;
 
+import com.sparta.kch.Calculator;
 import com.sparta.kch.Exceptions.DivideByZeroException;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
