@@ -20,7 +20,7 @@ public class TestSetup {
     private static final String BASE_URL = "https://www.saucedemo.com/";
     private static GeckoDriverService service;
     private static WebDriver webDriver;
-    
+
     private static FirefoxOptions getFirefoxOptions() {
         FirefoxOptions options = new FirefoxOptions();
         options.addArguments("--start-maximized");
@@ -53,8 +53,8 @@ public class TestSetup {
         webDriver.quit();
     }
 
-    public Website getWebsite() {
-        webDriver.get(BASE_URL);
+    public Website getWebsite(String url) {
+        webDriver.get(url);
         return new Website(webDriver);
     }
 }
