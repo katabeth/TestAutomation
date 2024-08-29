@@ -3,7 +3,6 @@ package com.sparta.kch.webtestframework.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.devtools.v112.storage.model.InterestGroupAccessed;
 
 import java.util.List;
 
@@ -25,12 +24,13 @@ public class InventoryPage {
         driver.findElement(addSauceLabsBackpackToCartButton).click();
     }
     public int getShoppingCartBadge() {
-        try {
-            return Integer.parseInt(driver.findElement(shoppingCartBadge).getText());
-        } catch (Exception ignored) {
+        if (driver.findElements(shoppingCartBadge).isEmpty()) {
             return 0;
+        } else {
+            return Integer.parseInt(driver.findElement(shoppingCartBadge).getText());
         }
     }
+
     public void addItemToCart(int index) {
         getInventoryItems().get(index).findElement(button).click();
     }
