@@ -8,7 +8,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Map;
 
 public class BulkpostcodeLookupTests {
     private static List<Object> responseMap;
@@ -26,7 +25,7 @@ public class BulkpostcodeLookupTests {
                 .header("Content-Type", "application/json")
                 .body(requestBody)
                 .when()
-                .post( )
+                .post()
                 .thenReturn();
         responseMap = response.jsonPath().getList("result");
     }
