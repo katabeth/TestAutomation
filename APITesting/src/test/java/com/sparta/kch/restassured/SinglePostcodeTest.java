@@ -19,12 +19,12 @@ public class SinglePostcodeTest {
     public static void setup() {
         response = RestAssured
                 .given()
-                .baseUri("https://api.postcodes.io")
-                .basePath("/postcodes")
-                .header("Accept", "text/json")
+                    .baseUri("https://api.postcodes.io")
+                    .basePath("/postcodes")
+                    .header("Accept", "text/json")
                 .when()
-                .get("/EC2Y5AS")
-                .thenReturn()
+                    .get("/EC2Y5AS")
+                    .thenReturn()
         ;
     }
 
@@ -33,16 +33,16 @@ public class SinglePostcodeTest {
     public void testStatusCode200() {
         RestAssured
                 .given()
-                .baseUri("https://api.postcodes.io")
-                .basePath("/postcodes")
-                .header("Accept", "text/json")
-                .log().all()
+                    .baseUri("https://api.postcodes.io")
+                    .basePath("/postcodes")
+                    .header("Accept", "text/json")
+                    .log().all()
                 .when()
-                .get("/EC2Y5AS")
+                    .get("/EC2Y5AS")
                 .then()
-                .log().all()
-                .assertThat()
-                .statusCode(200)
+                    .log().all()
+                    .assertThat()
+                    .statusCode(200)
         ;
     }
 
