@@ -4,12 +4,9 @@ import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
-import org.junit.Before;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import java.util.Map;
 
 public class SinglePostcodeTest {
 
@@ -51,12 +48,12 @@ public class SinglePostcodeTest {
     public void testStatusCode200_v2() {
         RestAssured
                 .given()
-                .baseUri("https://api.postcodes.io/postcodes/EC2Y5AS")
+                    .baseUri("https://api.postcodes.io/postcodes/EC2Y5AS")
                 .when()
-                .get()
+                    .get()
                 .then()
-                .assertThat()
-                .statusCode(200)
+                    .assertThat()
+                    .statusCode(200)
         ;
     }
 
