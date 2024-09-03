@@ -13,7 +13,6 @@ import java.time.Duration;
 public class TestSetup {
 
     private static final String DRIVER_LOCATION = "src/test/resources/geckodriver.exe";
-    private static final String BASE_URL = "https://www.saucedemo.com/";
     private static GeckoDriverService service;
     private static WebDriver webDriver;
 
