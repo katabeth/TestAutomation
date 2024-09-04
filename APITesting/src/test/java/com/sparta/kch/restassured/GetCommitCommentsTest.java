@@ -29,16 +29,7 @@ public class GetCommitCommentsTest {
             String REPO_NAME = prop.getProperty("REPO_NAME");
             String BEARER_TOKEN = prop.getProperty("BEARER_TOKEN");
             response = RestAssured
-                    .given()
-                    .baseUri(BASE_URL)
-                    .basePath(PATH)
-                    .headers(Map.of(
-                            "Accept", "application/vnd.github+json",
-                            "Authorization", "Bearer " + BEARER_TOKEN,
-                            "X-Github-Api-Version", "2022-11-28"
-                    ))
-                    .pathParams("owner", OWNER,
-                            "repo", REPO_NAME)
+                    .given(Utils.getGitHubCommentsRequestSpec(BASE_URL, PATH, BEARER_TOKEN, OWNER, REPO_NAME))
                     .when()
                     .get()
                     .thenReturn();

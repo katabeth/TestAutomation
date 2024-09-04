@@ -31,7 +31,7 @@ public class GetSpecificCommitCommentTests {
             String OWNER = prop.getProperty("OWNER");
             String REPO_NAME = prop.getProperty("REPO_NAME");
             String BEARER_TOKEN = prop.getProperty("BEARER_TOKEN");
-            
+
             response = RestAssured
                     .given()
                     .baseUri(BASE_URL)
