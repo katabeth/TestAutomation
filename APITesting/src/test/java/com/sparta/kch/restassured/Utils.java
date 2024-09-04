@@ -58,21 +58,5 @@ public class Utils {
                 .build();
     }
 
-    public static String[] getProperties(){
-        try {
-            // load a properties file
-            prop.load(new FileInputStream("src/test/resources/git.properties"));
-            // input from properties file
-            String OWNER = prop.getProperty("OWNER");
-            String REPO_NAME = prop.getProperty("REPO_NAME");
-            String BEARER_TOKEN = prop.getProperty("BEARER_TOKEN");
-            return new String[]{OWNER, REPO_NAME, BEARER_TOKEN};
-        } catch (IOException e) {
-            e.printStackTrace();
-            return new String[]{"", "", ""};
-        }
-        // load a properties file
-
-    }
 
 }

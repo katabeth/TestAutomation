@@ -14,7 +14,6 @@ public class PostCommitCommentWithValidBodyTests {
 
     private static Response response;
     private static JsonObject responseBody;
-    private static final String BASE_URI = "https://api.github.com";
     private static final String POST_PATH = "/repos/{owner}/{repo}/commits/{commit_sha}/comments";
     private static final String GET_ALL_PATH = "/repos/{owner}/{repo}/comments";
     private static final String DELETE_PATH = "/repos/{owner}/{repo}/comments/{comment_id}";
@@ -28,10 +27,11 @@ public class PostCommitCommentWithValidBodyTests {
 
     @BeforeAll
     public static void beforeAll() {
-        String [] properties = Utils.getProperties();
-        String OWNER = properties[0];
-        String REPO_NAME = properties[1];
-        String BEARER_TOKEN = properties[2];
+        String OWNER = AppConfig.getOwner();
+        String REPO_NAME = AppConfig.getRepoName();
+        String BEARER_TOKEN = AppConfig.getToken();
+        String BASE_URI = AppConfig.getBaseUri();
+        String PATH = AppConfig.getRepoPath();
 
         initialNumberOfComments = RestAssured
                 .given(Utils.getGitHubCommentsRequestSpec(BASE_URI, GET_ALL_PATH, BEARER_TOKEN, OWNER, REPO_NAME))

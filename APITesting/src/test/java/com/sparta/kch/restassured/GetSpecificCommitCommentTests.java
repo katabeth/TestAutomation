@@ -17,8 +17,6 @@ import java.util.Properties;
 public class GetSpecificCommitCommentTests {
 
     private static Response response;
-    private static final String BASE_URL = "https://api.github.com/";
-    private static final String PATH = "/repos/{owner}/{repo}/comments";
     private static final int COMMENT_ID = 146183600;
     private static Comment comment;
 
@@ -26,18 +24,19 @@ public class GetSpecificCommitCommentTests {
     @BeforeAll
     public static void setup() {
 
-            String [] properties = Utils.getProperties();
-            String OWNER = properties[0];
-            String REPO_NAME = properties[1];
-            String BEARER_TOKEN = properties[2];
+        String OWNER = AppConfig.getOwner();
+        String REPO_NAME = AppConfig.getRepoName();
+        String BEARER_TOKEN = AppConfig.getToken();
+        String BASE_URL = AppConfig.getBaseUri();
+        String PATH = AppConfig.getRepoPath();
 
-            response = RestAssured
-                    .given(Utils.getGitHubCommentsRequestSpec(BASE_URL, PATH, BEARER_TOKEN, OWNER, REPO_NAME))
-                    .basePath(PATH+"/"+COMMENT_ID)
-                    .when()
-                    .get()
-                    .thenReturn();
-            comment = response.as(Comment.class);
+        response = RestAssured
+                .given(Utils.getGitHubCommentsRequestSpec(BASE_URL, PATH, BEARER_TOKEN, OWNER, REPO_NAME))
+                .basePath(PATH+"/"+COMMENT_ID)
+                .when()
+                .get()
+                .thenReturn();
+        comment = response.as(Comment.class);
     }
 
     @Test
