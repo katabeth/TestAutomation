@@ -61,4 +61,19 @@ public class GetCommitCommentsTest {
     public void testFirstCommenterName() {
         MatcherAssert.assertThat(response.jsonPath().getString("[0].user.login"), Matchers.is("katabeth"));
     }
+    @Test
+    @DisplayName("Get comment with a specific Id returns a comment with that Id")
+    void getCommentWithId_ReturnsThatComment() {}
+
+    @Test
+    @DisplayName("Get comment with a specific Id and check the Server header")
+    void getCommentWithId_ChecksServerHeader() {}
+
+    @Test
+    @DisplayName("Get comment with a specific Id and check the status code")
+    void getCommentWithId_ChecksStatusCode() {}
+
+    @Test
+    @DisplayName("Get comment with a specific Id and check the reactions total count")
+    void getCommentWithId_ChecksReactionsTotalCount() {}
 }

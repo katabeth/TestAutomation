@@ -65,4 +65,15 @@ public class GetSpecificCommitCommentTests {
     public void testFirstCommenterName() {
         MatcherAssert.assertThat(response.jsonPath().getString("user.login"), Matchers.is("katabeth"));
     }
+    @Test
+    @DisplayName("Get comment with a specific Id and check the Server header")
+    void getCommentWithId_ChecksServerHeader() {
+
+        MatcherAssert.assertThat(response.getHeader("Server"), Matchers.is("github.com"));
+    }
+    @Test
+    @DisplayName("Get comment with a specific Id and check the reactions total count")
+    void getCommentWithId_ChecksReactionsTotalCount() {
+        MatcherAssert.assertThat(response.jsonPath().getInt("reactions.total_count"), Matchers.is(0));
+    }
 }
