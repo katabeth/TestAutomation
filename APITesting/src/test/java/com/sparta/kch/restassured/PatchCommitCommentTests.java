@@ -2,6 +2,7 @@ package com.sparta.kch.restassured;
 
 import com.sparta.kch.restassured.pojos.Comment;
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
@@ -12,39 +13,19 @@ import org.junit.jupiter.api.Test;
 
 public class PatchCommitCommentTests {
     private static Response response;
-    //private static JsonObject responseBody;
-    private static Comment comment;
-    private static final String PATCH_PATH = "/repos/{owner}/{repo}/commits/{commit_sha}/comments";
-    private static final String DELETE_PATH = "/repos/{owner}/{repo}/comments/{comment_id}";
+    //private static Comment comment;
+    private static final String PATCH_PATH = "/repos/{owner}/{repo}/commits/{comment_id}/comments";
 
-    private static final String COMMIT_ID = "f0722cfd773728c455f73bd796c65ac4e6665748";
+    private static final String COMMENT_ID = "146183600";
     private static final String PATCH_MESSAGE = "Nice change";
     private static String originalMessage;
-    private static Integer commentId; //set in beforeAll
 
     @BeforeAll
     public static void beforeAll() {
-        originalMessage = Utils.getAllComments().as(Comment.class).getBody();
+        originalMessage = Utils.getSpecificComment(COMMENT_ID).jsonPath().getString("body");
         // Make a PATCH request to the GitHub API to add a comment
         response = getPutResponse();
-        comment = response.as(Comment.class);
-        commentId = comment.getId();
-        //responseBody = response.jsonPath().getJsonObject("body");
-    }
-    public static int getNumberOfComments() {
-        return RestAssured
-                .given(Utils.getGitHubCommentsRequestSpec(
-                        AppConfig.getBaseUri(),
-                        AppConfig.getRepoPath(),
-                        AppConfig.getToken(),
-                        AppConfig.getOwner(),
-                        AppConfig.getRepoName()
-                ))
-                .when()
-                .get()
-                .jsonPath()
-                .getList("id")
-                .size();
+        //comment = response.as(Comment.class);
     }
     public static Response getPutResponse() {
         return RestAssured
@@ -54,11 +35,12 @@ public class PatchCommitCommentTests {
                         AppConfig.getToken(),
                         AppConfig.getOwner(),
                         AppConfig.getRepoName(),
-                        COMMIT_ID,
-                        PATCH_MESSAGE
+                        COMMENT_ID
                 ))
+                .contentType(ContentType.JSON)
+                .body(PATCH_MESSAGE)
                 .when()
-                .patch()
+                    .patch()
                 .thenReturn();
     }
     @AfterAll
@@ -71,9 +53,9 @@ public class PatchCommitCommentTests {
                         AppConfig.getToken(),
                         AppConfig.getOwner(),
                         AppConfig.getRepoName(),
-                        COMMIT_ID,
-                        originalMessage
+                        COMMENT_ID
                 ))
+                .body(originalMessage)
                 .when()
                 .patch();
     }

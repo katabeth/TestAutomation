@@ -1,4 +1,4 @@
-package com.sparta.kch.restassured;
+package com.sparta.kch.postcodes;
 
 import io.restassured.RestAssured;
 import io.restassured.response.Response;

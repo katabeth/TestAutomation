@@ -22,19 +22,8 @@ public class GetCommitCommentsTest {
 
     @BeforeAll
     public static void setup() {
-        String OWNER = AppConfig.getOwner();
-        String REPO_NAME = AppConfig.getRepoName();
-        String BEARER_TOKEN = AppConfig.getToken();
-        String BASE_URL = AppConfig.getBaseUri();
-        String PATH = AppConfig.getRepoPath();
-
-        response = RestAssured
-                .given(Utils.getGitHubCommentsRequestSpec(BASE_URL, PATH, BEARER_TOKEN, OWNER, REPO_NAME))
-                .when()
-                .get()
-                .thenReturn();
+        response = Utils.getAllComments();
         comments = response.as(Comment[].class);
-
     }
     @Test
     @DisplayName("Get all comments and check status code 200 returned")

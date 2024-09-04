@@ -5,13 +5,9 @@ import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
-
 import java.util.Map;
-import java.util.Properties;
 
 public class Utils {
-
-    private static Properties prop = new Properties();
     public static RequestSpecification getGitHubCommentsRequestSpec(String baseUri, String path, String token, String owner, String repo) {
 
         return new RequestSpecBuilder()
@@ -24,7 +20,7 @@ public class Utils {
                 .addPathParam("repo", repo)
                 .build();
     }
-    public static RequestSpecification getGitHubCommentsRequestSpec(String baseUri, String path, String token, String owner, String repo, int commit_id) {
+    public static RequestSpecification getGitHubCommentsRequestSpec(String baseUri, String path, String token, String owner, String repo, String comment_id) {
         return new RequestSpecBuilder()
                 .setBaseUri(baseUri)
                 .setBasePath(path)
@@ -33,7 +29,7 @@ public class Utils {
                 .addHeader("X-Github-Api-Version", "2022-11-28") // Unnecessary
                 .addPathParam("owner", owner)
                 .addPathParam("repo", repo)
-                .addPathParam("commit_sha", commit_id)
+                .addPathParam("comment_id", comment_id)
                 .build();
     }
     public static RequestSpecification postRequestSpecForComment(String baseUri, String path, String token, String owner, String repo, String commitSha, String commentBody) {
@@ -70,7 +66,7 @@ public class Utils {
                 ))
                 .build();
     }
-    public static RequestSpecification patchRequestSpecForComment(String baseUri, String path, String token, String owner, String repo, String commitSha, String commentBody) {
+    public static RequestSpecification patchRequestSpecForComment(String baseUri, String path, String token, String owner, String repo, String commentId) {
         return new RequestSpecBuilder().setBaseUri(baseUri)
                 .setBasePath(path)
                 .addHeaders(Map.of(
@@ -80,12 +76,9 @@ public class Utils {
                 .addPathParams(Map.of(
                         "owner", owner,
                         "repo", repo,
-                        "commit_sha", commitSha
+                        "comment_id", commentId
                 ))
-                .setContentType(ContentType.JSON)
-                .setBody(Map.of(
-                        "body", commentBody
-                ))
+                //.setContentType(ContentType.JSON)
                 .build();
     }
     public static Response getAllComments() {
@@ -101,7 +94,7 @@ public class Utils {
                 .get()
                 .thenReturn();
     }
-    public static Response getSpecificComment(Integer commentId) {
+    public static Response getSpecificComment(String commentId) {
         return RestAssured
                 .given(getGitHubCommentsRequestSpec(
                         AppConfig.getBaseUri(),

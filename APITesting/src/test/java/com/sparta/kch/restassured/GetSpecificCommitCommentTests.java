@@ -17,13 +17,15 @@ import java.util.Properties;
 public class GetSpecificCommitCommentTests {
 
     private static Response response;
-    private static final int COMMENT_ID = 146183600;
+    private static final String COMMENT_ID = "146183600";
     private static Comment comment;
 
     @BeforeAll
     public static void setup() {
         response = Utils.getSpecificComment(COMMENT_ID);
         comment = response.as(Comment.class);
+
+        response.prettyPrint();
     }
 
 
@@ -35,12 +37,12 @@ public class GetSpecificCommitCommentTests {
     @Test
     @DisplayName("Get specific comment and check id is correct")
     public void testNumberOfComments() {
-        MatcherAssert.assertThat(response.jsonPath().getInt("id"), Matchers.is(COMMENT_ID));
+        MatcherAssert.assertThat(comment.getId(), Matchers.is(COMMENT_ID));
     }
     @Test
     @DisplayName("Get specific comment and check name is correct")
     public void testFirstCommenterName() {
-        MatcherAssert.assertThat(response.jsonPath().getString("user.login"), Matchers.is("katabeth"));
+        MatcherAssert.assertThat(comment.getUser().getLogin(), Matchers.is("katabeth"));
     }
     @Test
     @DisplayName("Get comment with a specific Id and check the Server header")
