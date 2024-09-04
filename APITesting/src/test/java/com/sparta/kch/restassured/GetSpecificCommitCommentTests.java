@@ -24,13 +24,11 @@ public class GetSpecificCommitCommentTests {
 
     @BeforeAll
     public static void setup() {
-        try {
-            // load a properties file
-            prop.load(new FileInputStream("src/test/resources/git.properties"));
-            // input from properties file
-            String OWNER = prop.getProperty("OWNER");
-            String REPO_NAME = prop.getProperty("REPO_NAME");
-            String BEARER_TOKEN = prop.getProperty("BEARER_TOKEN");
+
+            String [] properties = Utils.getProperties();
+            String OWNER = properties[0];
+            String REPO_NAME = properties[1];
+            String BEARER_TOKEN = properties[2];
 
             response = RestAssured
                     .given(Utils.getGitHubCommentsRequestSpec(BASE_URL, PATH, BEARER_TOKEN, OWNER, REPO_NAME))
@@ -38,10 +36,6 @@ public class GetSpecificCommitCommentTests {
                     .when()
                     .get()
                     .thenReturn();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-
     }
 
     @Test
