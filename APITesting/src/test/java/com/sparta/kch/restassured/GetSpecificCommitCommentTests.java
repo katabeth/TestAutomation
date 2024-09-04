@@ -20,24 +20,12 @@ public class GetSpecificCommitCommentTests {
     private static final int COMMENT_ID = 146183600;
     private static Comment comment;
 
-
     @BeforeAll
     public static void setup() {
-
-        String OWNER = AppConfig.getOwner();
-        String REPO_NAME = AppConfig.getRepoName();
-        String BEARER_TOKEN = AppConfig.getToken();
-        String BASE_URL = AppConfig.getBaseUri();
-        String PATH = AppConfig.getRepoPath();
-
-        response = RestAssured
-                .given(Utils.getGitHubCommentsRequestSpec(BASE_URL, PATH, BEARER_TOKEN, OWNER, REPO_NAME))
-                .basePath(PATH+"/"+COMMENT_ID)
-                .when()
-                .get()
-                .thenReturn();
+        response = Utils.getSpecificComment(COMMENT_ID);
         comment = response.as(Comment.class);
     }
+
 
     @Test
     @DisplayName("Get specific comment and check status code 200 returned")

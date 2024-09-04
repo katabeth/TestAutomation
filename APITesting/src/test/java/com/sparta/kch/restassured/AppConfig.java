@@ -34,4 +34,7 @@ public class AppConfig {
     public  static String getRepoName(){
         return properties.getProperty("REPO_NAME");
     }
+    public static String getUniquePath() {
+        return properties.getProperty("UNIQUE_PATH");
+    }
 }
