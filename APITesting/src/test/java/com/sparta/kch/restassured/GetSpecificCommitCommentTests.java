@@ -26,10 +26,12 @@ public class GetSpecificCommitCommentTests {
     public static void setup() {
         try {
             // load a properties file
-            prop.load(new FileInputStream("src/test/resources/git.properties")); // note the leading /
+            prop.load(new FileInputStream("src/test/resources/git.properties"));
+            // input from properties file
             String OWNER = prop.getProperty("OWNER");
             String REPO_NAME = prop.getProperty("REPO_NAME");
             String BEARER_TOKEN = prop.getProperty("BEARER_TOKEN");
+            
             response = RestAssured
                     .given()
                     .baseUri(BASE_URL)
@@ -68,7 +70,6 @@ public class GetSpecificCommitCommentTests {
     @Test
     @DisplayName("Get comment with a specific Id and check the Server header")
     void getCommentWithId_ChecksServerHeader() {
-
         MatcherAssert.assertThat(response.getHeader("Server"), Matchers.is("github.com"));
     }
     @Test
