@@ -1,5 +1,6 @@
 package com.sparta.kch.restassured;
 
+import com.sparta.kch.restassured.pojos.Comment;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
@@ -19,7 +20,7 @@ public class GetSpecificCommitCommentTests {
     private static final String BASE_URL = "https://api.github.com/";
     private static final String PATH = "/repos/{owner}/{repo}/comments";
     private static final int COMMENT_ID = 146183600;
-    private static Properties prop = new Properties();
+    private static Comment comment;
 
 
     @BeforeAll
@@ -36,6 +37,7 @@ public class GetSpecificCommitCommentTests {
                     .when()
                     .get()
                     .thenReturn();
+            comment = response.as(Comment.class);
     }
 
     @Test
@@ -61,6 +63,12 @@ public class GetSpecificCommitCommentTests {
     @Test
     @DisplayName("Get comment with a specific Id and check the reactions total count")
     void getCommentWithId_ChecksReactionsTotalCount() {
-        MatcherAssert.assertThat(response.jsonPath().getInt("reactions.total_count"), Matchers.is(0));
+        MatcherAssert.assertThat(comment.getReactions().getTotalCount(), Matchers.is(0));
     }
+    @Test
+    @DisplayName("Comment createdAt Date/time is in the past")
+    void getCommentWithId_ChecksCreatedAt() {
+        MatcherAssert.assertThat(comment.createdDateInThePast(), Matchers.is(true));
+    }
+
 }

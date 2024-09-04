@@ -47,8 +47,7 @@ public class PostCommitCommentWithValidBodyTests {
                 .thenReturn();
         commentId = response.jsonPath().getInt("id");
         responseBody = response.jsonPath().getJsonObject("body");
-
-        finalNumberOfComments = initialNumberOfComments + 1;
+        finalNumberOfComments = response.jsonPath().getList("id").size();
     }
     @AfterAll
     public static void afterAll(){

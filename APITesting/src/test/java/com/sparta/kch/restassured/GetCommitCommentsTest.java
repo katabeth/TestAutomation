@@ -1,5 +1,6 @@
 package com.sparta.kch.restassured;
 
+import com.sparta.kch.restassured.pojos.Comment;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.hamcrest.MatcherAssert;
@@ -18,24 +19,22 @@ public class GetCommitCommentsTest {
     private static Response response;
     private static final String BASE_URL = "https://api.github.com/";
     private static final String PATH = "/repos/{owner}/{repo}/comments";
-    static Properties prop = new Properties();
-
+    private static Comment[] comments;
 
     @BeforeAll
     public static void setup() {
-        try{
-            prop.load(new FileInputStream("src/test/resources/git.properties"));
-            String OWNER = prop.getProperty("OWNER");
-            String REPO_NAME = prop.getProperty("REPO_NAME");
-            String BEARER_TOKEN = prop.getProperty("BEARER_TOKEN");
-            response = RestAssured
-                    .given(Utils.getGitHubCommentsRequestSpec(BASE_URL, PATH, BEARER_TOKEN, OWNER, REPO_NAME))
-                    .when()
-                    .get()
-                    .thenReturn();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        String [] properties = Utils.getProperties();
+        String OWNER = properties[0];
+        String REPO_NAME = properties[1];
+        String BEARER_TOKEN = properties[2];
+
+        response = RestAssured
+                .given(Utils.getGitHubCommentsRequestSpec(BASE_URL, PATH, BEARER_TOKEN, OWNER, REPO_NAME))
+                .when()
+                .get()
+                .thenReturn();
+        comments = response.as(Comment[].class);
+
     }
     @Test
     @DisplayName("Get all comments and check status code 200 returned")
@@ -67,4 +66,10 @@ public class GetCommitCommentsTest {
     @Test
     @DisplayName("Get comment with a specific Id and check the reactions total count")
     void getCommentWithId_ChecksReactionsTotalCount() {}
+
+    @Test
+    @DisplayName("Get all repos comments returns 1 comment")
+    void testNumberOfReposComments() {
+        MatcherAssert.assertThat(comments.length, Matchers.is(1));
+    }
 }
