@@ -11,10 +11,12 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Map;
+
 public class PatchCommitCommentTests {
     private static Response response;
     //private static Comment comment;
-    private static final String PATCH_PATH = "/repos/{owner}/{repo}/commits/{comment_id}/comments";
+    private static final String PATCH_PATH = "/repos/{owner}/{repo}/comments/{comment_id}";
 
     private static final String COMMENT_ID = "146183600";
     private static final String PATCH_MESSAGE = "Nice change";
@@ -25,6 +27,7 @@ public class PatchCommitCommentTests {
         originalMessage = Utils.getSpecificComment(COMMENT_ID).jsonPath().getString("body");
         // Make a PATCH request to the GitHub API to add a comment
         response = getPutResponse();
+        response.prettyPrint();
         //comment = response.as(Comment.class);
     }
     public static Response getPutResponse() {
@@ -35,10 +38,9 @@ public class PatchCommitCommentTests {
                         AppConfig.getToken(),
                         AppConfig.getOwner(),
                         AppConfig.getRepoName(),
-                        COMMENT_ID
+                        COMMENT_ID,
+                        PATCH_MESSAGE
                 ))
-                .contentType(ContentType.JSON)
-                .body(PATCH_MESSAGE)
                 .when()
                     .patch()
                 .thenReturn();
@@ -53,9 +55,9 @@ public class PatchCommitCommentTests {
                         AppConfig.getToken(),
                         AppConfig.getOwner(),
                         AppConfig.getRepoName(),
-                        COMMENT_ID
+                        COMMENT_ID,
+                        originalMessage
                 ))
-                .body(originalMessage)
                 .when()
                 .patch();
     }

@@ -66,7 +66,7 @@ public class Utils {
                 ))
                 .build();
     }
-    public static RequestSpecification patchRequestSpecForComment(String baseUri, String path, String token, String owner, String repo, String commentId) {
+    public static RequestSpecification patchRequestSpecForComment(String baseUri, String path, String token, String owner, String repo, String commentId, String message) {
         return new RequestSpecBuilder().setBaseUri(baseUri)
                 .setBasePath(path)
                 .addHeaders(Map.of(
@@ -78,7 +78,8 @@ public class Utils {
                         "repo", repo,
                         "comment_id", commentId
                 ))
-                //.setContentType(ContentType.JSON)
+                .setContentType(ContentType.JSON)
+                .setBody(Map.of("body", message))
                 .build();
     }
     public static Response getAllComments() {
